@@ -2,12 +2,12 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Event;
+use App\Models\Event;
 use Faker\Generator as Faker;
 
 $factory->define(Event::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'time' => $faker->dateTimeBetween('-3 years', 'now')
+        'event_date' => $faker->dateTimeBetween('-3 years', 'now')
     ];
 });

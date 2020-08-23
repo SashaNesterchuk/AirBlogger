@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
+use App\Models\Event;
+use App\Http\Requests\EventIndexMonthRequest;
+use App\Http\Requests\EventIndexRequest;
+use App\Http\Requests\EventUpdateRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -12,74 +16,56 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(EventIndexRequest $request)
     {
-        return response(Event::all());
+        $events = Event::whereYear('event_date', $request->year)
+            ->get()
+            ->groupBy(function ($val) {
+                return Carbon::parse($val->event_date)->format('n');
+            });
+
+        return response($events);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing month of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function create()
+    public function indexMonth(EventIndexMonthRequest $request)
     {
-        //
-    }
+        $events = Event::whereYear('event_date', $request->year)
+            ->whereMonth('event_date', $request->month)
+            ->get();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return response($events);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function show(Event $event)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Event $event)
-    {
-        //
+        return response($event->load('bloggers'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Event $event
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(EventUpdateRequest $request, Event $event)
     {
-        //
-    }
+        $event->bloggers()->where('blogger_id', $request->decrement_id)->decrement('blogger_order', 1);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Event $event)
-    {
-        //
+        $event->bloggers()->where('blogger_id', $request->increment_id)->increment('blogger_order', 1);
+
+        return response($event->load('bloggers'));
     }
 }

@@ -11,8 +11,6 @@ class BloggerSeeder extends Seeder
      */
     public function run()
     {
-        $bloggers = factory(\App\Blogger::class, 6)->create();
-
-
+        factory(\App\Blogger::class, 15)->create();
     }
 }

@@ -16,6 +16,7 @@ class CreateBloggersTable extends Migration
         Schema::create('bloggers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('description');
             $table->string('avatar')->nullable();
         });
 
@@ -23,7 +24,7 @@ class CreateBloggersTable extends Migration
             $table->primary(['blogger_id', 'event_id']);
             $table->foreignId('blogger_id');
             $table->foreignId('event_id');
-            $table->integer('blogger_point');
+            $table->unsignedBigInteger('blogger_order')->default(1);
         });
     }
 

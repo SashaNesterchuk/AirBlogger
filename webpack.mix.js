@@ -1,4 +1,5 @@
-const mix = require('laravel-mix');
+const mix = require('laravel-mix')
+const path = require('path')
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +12,19 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+mix
+  .js('resources/js/app.js', 'public/js')
+  .copyDirectory('resources/img', 'public/img')
+  .postCss('resources/css/main.css', 'public/css', [require('tailwindcss')])
+
+mix.webpackConfig({
+  resolve: {
+    alias: {
+      '~': path.join(__dirname, './resources/js')
+    }
+  },
+  output: {
+    chunkFilename: 'js/[name].[chunkhash].js',
+    publicPath: mix.config.hmr ? '//localhost:8080' : '/'
+  }
+})

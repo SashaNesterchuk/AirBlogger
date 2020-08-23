@@ -1,0 +1,20 @@
+{
+  "extends": "../../.eslintrc",
+  "plugins": [
+    "chai-friendly"
+  ],
+  "env": {
+    "mocha": true
+  },
+  "globals": {
+    "expect": true,
+    "sinon": true
+  },
+  "rules": {
+    "no-unused-expressions": 0,
+    "chai-friendly/no-unused-expressions": 2,
+    "max-len": 0,
+    "allowShortCircuit": true,
+    "allowTaggedTemplates": true
+  }
+}
