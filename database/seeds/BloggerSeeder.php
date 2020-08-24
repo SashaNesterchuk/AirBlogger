@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Blogger;
 use Illuminate\Database\Seeder;
 
 class BloggerSeeder extends Seeder
@@ -11,6 +12,6 @@ class BloggerSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Blogger::class, 15)->create();
+        factory(Blogger::class, 15)->create();
     }
 }
