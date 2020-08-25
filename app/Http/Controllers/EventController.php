@@ -6,8 +6,7 @@ use App\Http\Requests\EventOrderRequest;
 use App\Models\Event;
 use App\Http\Requests\EventIndexMonthRequest;
 use App\Http\Requests\EventIndexRequest;
-use App\Http\Requests\EventUpdateRequest;
-use App\Services\EventService;
+use App\Services\OrderBloggerService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -64,7 +63,7 @@ class EventController extends Controller
      */
     public function downOrder(EventOrderRequest $request, Event $event)
     {
-        (new EventService($request->blogger_id, $event))->downOrder();
+        (new OrderBloggerService($request->blogger_id, $event))->downOrder();
 
         return response($event->load('bloggers'));
     }
@@ -78,7 +77,7 @@ class EventController extends Controller
      */
     public function upOrder(EventOrderRequest $request, Event $event)
     {
-        (new EventService($request->blogger_id, $event))->upOrder();
+        (new OrderBloggerService($request->blogger_id, $event))->upOrder();
 
         return response($event->load('bloggers'));
     }

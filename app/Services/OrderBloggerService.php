@@ -6,7 +6,7 @@ namespace App\Services;
 use App\Models\Blogger;
 use App\Models\Event;
 
-class EventService
+class OrderBloggerService
 {
     private $blogger;
 
