@@ -26,4 +26,9 @@ class Event extends Model
     {
         return $this->belongsToMany(Blogger::class)->orderBy('blogger_order')->withPivot('blogger_order');
     }
+
+    public function bloggersOrderDesc()
+    {
+        return $this->belongsToMany(Blogger::class)->orderBy('blogger_order', 'desc')->withPivot('blogger_order');
+    }
 }

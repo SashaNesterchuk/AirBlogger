@@ -170,17 +170,19 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onClickDown: function onClickDown(id) {
-      this.$store.dispatch('events/changeOder', {
-        eventId: this.eventId,
-        increment_id: id,
-        decrement_id: this.secondBlogger(id, 1).id
-      });
+      this.changeOrder(id, 'down');
     },
     onClickUp: function onClickUp(id) {
+      this.changeOrder(id, 'up');
+    },
+    changeOrder: function changeOrder(id, url) {
+      var blogger = this.bloggers.find(function (item) {
+        return item.id === id;
+      });
       this.$store.dispatch('events/changeOder', {
-        eventId: this.eventId,
-        increment_id: this.secondBlogger(id, -1).id,
-        decrement_id: id
+        blogger_id: id,
+        id: this.eventId,
+        url: url
       });
     },
 

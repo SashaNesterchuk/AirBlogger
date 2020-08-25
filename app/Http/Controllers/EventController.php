@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventOrderRequest;
 use App\Models\Event;
 use App\Http\Requests\EventIndexMonthRequest;
 use App\Http\Requests\EventIndexRequest;
 use App\Http\Requests\EventUpdateRequest;
+use App\Services\EventService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -54,17 +56,29 @@ class EventController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update blogger order down
      *
-     * @param Request $request
+     * @param EventOrderRequest $request
      * @param Event $event
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function update(EventUpdateRequest $request, Event $event)
+    public function downOrder(EventOrderRequest $request, Event $event)
     {
-        $event->bloggers()->where('blogger_id', $request->decrement_id)->decrement('blogger_order', 1);
+        (new EventService($request->blogger_id, $event))->downOrder();
 
-        $event->bloggers()->where('blogger_id', $request->increment_id)->increment('blogger_order', 1);
+        return response($event->load('bloggers'));
+    }
+
+    /**
+     * Update blogger order up
+     *
+     * @param EventOrderRequest $request
+     * @param Event $event
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function upOrder(EventOrderRequest $request, Event $event)
+    {
+        (new EventService($request->blogger_id, $event))->upOrder();
 
         return response($event->load('bloggers'));
     }

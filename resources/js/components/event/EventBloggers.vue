@@ -46,18 +46,20 @@ export default {
 
   methods: {
     onClickDown(id) {
-      this.$store.dispatch('events/changeOder', {
-        eventId: this.eventId,
-        increment_id: id,
-        decrement_id: this.secondBlogger(id, 1).id
-      })
+        this.changeOrder(id, 'down')
     },
 
     onClickUp(id) {
+        this.changeOrder(id, 'up')
+    },
+
+    changeOrder(id, url) {
+      let blogger = this.bloggers.find((item) => item.id === id)
+
       this.$store.dispatch('events/changeOder', {
-        eventId: this.eventId,
-        increment_id: this.secondBlogger(id, -1).id,
-        decrement_id: id
+        blogger_id: id,
+        id: this.eventId,
+        url: url
       })
     },
 

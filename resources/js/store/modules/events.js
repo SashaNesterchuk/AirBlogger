@@ -53,12 +53,9 @@ export const mutations = {
 }
 
 export const actions = {
-  changeOder({ commit }, pyaload) {
+  changeOder({ commit }, payload) {
     axios
-      .put(`/api/events/${pyaload.eventId}`, {
-        increment_id: pyaload.increment_id,
-        decrement_id: pyaload.decrement_id
-      })
+      .put(`/api/events/${payload.url}/order/${payload.id}`, { blogger_id: payload.blogger_id })
       .then(({ data }) => {
         commit(types.UPDATE_EVENT, data)
       })

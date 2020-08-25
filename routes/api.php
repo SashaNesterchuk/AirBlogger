@@ -17,4 +17,6 @@ Route::prefix('events')->group(function () {
     Route::get('month', 'EventController@indexMonth')->name('event.month');
     Route::get('{event}', 'EventController@show')->name('event.show');
     Route::put('{event}', 'EventController@update')->name('event.update');
+    Route::put('down/order/{event}', 'EventController@downOrder')->name('event.down');
+    Route::put('up/order/{event}', 'EventController@upOrder')->name('event.up');
 });

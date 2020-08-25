@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + "." + {"0":"5a08536b9ca408af7544","1":"4d945701f34ad6cd9e77","2":"fcde3c62de8ca5f17715"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + "." + {"0":"5a08536b9ca408af7544","1":"7eb03f2b05fba2bff5b3","2":"fcde3c62de8ca5f17715"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -20383,11 +20383,10 @@ var mutations = (_mutations = {}, _defineProperty(_mutations, _mutation_types__W
   state.event = data;
 }), _mutations);
 var actions = {
-  changeOder: function changeOder(_ref, pyaload) {
+  changeOder: function changeOder(_ref, payload) {
     var commit = _ref.commit;
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/events/".concat(pyaload.eventId), {
-      increment_id: pyaload.increment_id,
-      decrement_id: pyaload.decrement_id
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/events/".concat(payload.url, "/order/").concat(payload.id), {
+      blogger_id: payload.blogger_id
     }).then(function (_ref2) {
       var data = _ref2.data;
       commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["UPDATE_EVENT"], data);
