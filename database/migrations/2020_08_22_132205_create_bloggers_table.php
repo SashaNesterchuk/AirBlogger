@@ -19,13 +19,6 @@ class CreateBloggersTable extends Migration
             $table->text('description');
             $table->string('avatar')->nullable();
         });
-
-        Schema::create('blogger_event', function (Blueprint $table) {
-            $table->primary(['blogger_id', 'event_id']);
-            $table->foreignId('blogger_id');
-            $table->foreignId('event_id');
-            $table->unsignedBigInteger('blogger_order')->default(1);
-        });
     }
 
     /**
